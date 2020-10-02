@@ -1,0 +1,84 @@
+
+
+.container {
+  border-radius: 5px;
+  font-size: 15px;
+  text-align: left;
+  margin: 10px auto;
+  width: 100%;
+  box-shadow: 0px 1px 3px 1px rgb(0 0 0 / 0.2);
+  line-height: 1.2;
+  color: #35444c;
+  min-width: 320px;
+  position: relative;
+  background: #fff;
+
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-family: 'Roboto', sans-serif;
+  position: relative;
+  padding: 20px 15px 15px;
+  width: 94%;
+}
+
+.contentBtn {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid;
+  border-color: transparent transparent black black;
+  transition: .3s;
+}
+
+.open {
+  transform: rotate(-49deg);
+  top: 21px;
+  right: -28px;
+}
+.close {
+  transform: rotate(133deg);
+  top: 25px;
+  right: -28px;
+}
+
+.account {
+
+}
+.bankName {
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 17px;
+}
+.cardAccount {
+  
+}
+.expirationDate {
+  
+}
+.amount {
+  font-weight: bold;
+  font-style: 16px;
+}
+.content {
+  border-top: 1px solid #00000038;
+  transition: .5s;
+  position: relative;
+  box-shadow: 0px 0px 1px 0px rgb(0 0 0 / 0.2);
+  border-radius: 0 0 5px 5px;
+  background: #fff;
+  padding: 25px 15px;
+}
+
+.collapse {
+  opacity: 0;
+  padding: 0 15px;
+}
+
+.show {
+  opacity: 1;
+}
