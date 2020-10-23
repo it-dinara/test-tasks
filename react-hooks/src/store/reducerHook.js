@@ -1,13 +1,36 @@
-import {useEffect} from 'react';
+const initialState = {
+  loading: false,
+  fetchedCards: [],
+  error: null
+}
 
-useEffect(() => {
-    const fetchData = async () => {
-      const result = await axios(
-        'https://cardholders-9f570.firebaseio.com//.json',
-      );
- 
-      setData(result.data);
-    };
- 
-    fetchData();
-  }, []);
+// actions
+const FETCH_CARDS_FAIL = 'FETCH_CARDS_FAIL'
+const FETCH_CARDS_START = 'FECTH_CARDS_START'
+const FETCH_CARDS_SUCCESS = 'FETCH_CARDS_SUCCESS'
+
+// actions creators
+
+export const reducer = (state = initialState, action) => {
+  switch(action.type) {
+    case 'FETCH_CARDS_START':
+      return {
+        ...state,
+        loading: true,
+      }
+    case 'FETCH_CARDS_SUCCESS': 
+      return {
+        ...state,
+        fetchedCards: action.fetchedCards
+      }
+    case 'FETCH_CARDS_FAIL':
+      return {
+        ...state,
+        loading: false,
+        error: action.error
+      }
+
+    default:
+      return state
+  }
+}

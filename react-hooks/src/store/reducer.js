@@ -1,7 +1,7 @@
 import * as actionTypes from './actionTypes.js'
 
 const initialState = {
-	loading: false,
+	loading: true,
 	fetchedCardsRes: [],
 }
 
@@ -24,14 +24,13 @@ const fetchCardsSuccess = (state, action) => {
 		...state,
 		loading: false,
 		fetchedCardsRes: fetchedCardsRes,
-
 	}
 }
 
-const fetchCardsFail = (state, aciton) => {
+const fetchCardsFail = (state, action) => {
     return {
         ...state,
-        loading: true
+		loading: false,
     }
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Cards from './containers/Cards.js'
+import Cards from './containers/CardsSecond.js'
 
 function App() {
   return (

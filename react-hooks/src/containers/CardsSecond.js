@@ -1,16 +1,14 @@
 import React, {useState, useEffect, useReducer} from 'react'
 import Spinner from '../components/UI/Spinner/Spinner'
-import {connect} from 'react-redux'
 import Card from '../components/Card/Card'
 import withErrorHandler from '../hoc/withErrorHandler/withErrorHandler'
 import axios from 'axios'
-import {reducer, fetchCardsSuccess} from '../store/reducerHook.js'
+import {reducer} from '../store/reducerHook.js'
 import './Cards.css'
 
 const Cards = () => {
     const [state, dispatch] = useReducer(reducer, [])
     const [value, setValue] = useState('')
-    // const [data, setData] = useState({cards: []})
     const [showText, setShowText] = useState(
         {
             '00': true,
@@ -41,19 +39,23 @@ const Cards = () => {
     }
 
     useEffect(() => {
-        const fetchData = async () => {
-          const result = await axios(
-            'https://cardholders-9f570.firebaseio.com//.json',
-          );
-        //   let arr = []
-          const cards = Object.keys(result.data).map(card => {
-              return result.data[card]
-          })
-          console.log('fetchCardsSuccess(cards)', dispatch(fetchCardsSuccess(cards)))
-          dispatch(fetchCardsSuccess(cards));
-        };
-     
-        fetchData();
+        axios
+            .get('https://cardholders-9f570.firebaseio.com//.json')
+            .then(response => {
+                const cards = Object.keys(response.data).map(card => {
+                    return response.data[card]
+                })
+                dispatch({
+                    type: 'FETCH_CARDS_SUCCESS',
+                    fetchedCards: cards
+                })
+            })
+            .catch(error => {
+                dispatch({
+                    type: 'FETCH_CARDS_FAIL',
+                    error: error.message
+                })
+            })
       }, []);
 
 
@@ -61,27 +63,28 @@ const Cards = () => {
         setShowText({ [id]: !showText[id] })
     }
 
-    let cards = [];
-        console.log('state', state)
-        console.log('state.fetchedCards', state.fetchedCards)
-        if(state.length > 0) {
-            cards =  state.map((card, i) => {
-            let flag = true;
-            if(card.cardAccount.slice(-4).indexOf(value) > -1 && flag) {
-                return(
-                    <Card
-                        key={card.id}
-                        cardAccount={card.cardAccount}
-                        expirationDate={card.expirationDate}
-                        bankName={card.name}
-                        text={card.text}
-                        amount={card.amount}
-                        showText={showText[card.id]}
-                        clicked={(event) => switchShowContentHandler(event, card.id)}
-                    />
-                )
-            }
-        })
+    
+    let cards = <Spinner/>;
+    console.log('state', state)
+    console.log('state.fetchedCards', state.fetchedCards)
+    if(state.fetchedCards) {
+        cards =  state.fetchedCards.map((card, i) => {
+        let flag = true;
+        if(card.cardAccount.slice(-4).indexOf(value) > -1 && flag) {
+            return(
+                <Card
+                    key={card.id}
+                    cardAccount={card.cardAccount}
+                    expirationDate={card.expirationDate}
+                    bankName={card.name}
+                    text={card.text}
+                    amount={card.amount}
+                    showText={showText[card.id]}
+                    clicked={(event) => switchShowContentHandler(event, card.id)}
+                />
+            )
+        }
+    })
     }
 
 
@@ -95,10 +98,10 @@ const Cards = () => {
                     />
                 <button onClick={sortHandler}>↑↓</button>
             </div>
-            {cards}
+            {state.error ? state.error : cards}
         </div>
     )
 }
 
 
-export default (withErrorHandler(Cards, axios))
+export default Cards
