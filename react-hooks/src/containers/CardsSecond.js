@@ -19,21 +19,21 @@ const Cards = () => {
     const [switchSortCards, setSwitchSortCards] = useState(false)
 
     const sortHandler = () => {
-
-        if(state.length > 0) {
+        console.log('switchSortCards', switchSortCards)
+        console.log('switchSortCards', state.fetchedCards.length)
+        if(state.fetchedCards.length > 0) {
 
             if(switchSortCards) {
-                state.sort((a, b) => {
+                state.fetchedCards.sort((a, b) => {
                     return b.cardAccount - a.cardAccount
                 })
             } else {
-                state.sort((a, b) => {
+                state.fetchedCards.sort((a, b) => {
                     return a.cardAccount - b.cardAccount
                 })
             }   
 
-            setSwitchSortCards(!switchSortCards)
-            // setFilterCards(data)
+            setSwitchSortCards(switchSortCards => !switchSortCards)
 
         }
     }

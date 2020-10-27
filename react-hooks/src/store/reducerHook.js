@@ -6,7 +6,6 @@ const initialState = {
   error: null
 }
 
-// actions creators
 
 export const reducer = (state = initialState, action) => {
   switch(action.type) {
@@ -18,7 +17,8 @@ export const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_CARDS_SUCCESS: 
       return {
         ...state,
-        fetchedCards: action.fetchedCards
+        loading: false,
+        fetchedCards: action.fetchedCards,
       }
     case actionTypes.FETCH_CARDS_FAIL:
       return {
